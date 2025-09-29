@@ -44,13 +44,13 @@ const LoginForm = () => {
           )}
 
           {/* Demo Credentials */}
-          <div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg">
+          {/*<div className="bg-blue-50 border border-blue-200 text-blue-700 px-4 py-3 rounded-lg">
             <h4 className="font-semibold mb-2">Demo Login Credentials (Auto-setup on first load):</h4>
             <div className="text-sm space-y-1">
               <p><strong>Super Admin:</strong> admin@dykeinvestments.com / admin123</p>
               <p className="text-xs text-blue-600">Note: Tables will be created automatically if they don't exist</p>
             </div>
-          </div>
+          </div>*/}
           <div className="space-y-4">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
