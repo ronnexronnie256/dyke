@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Building2, Users, Phone, Menu, X, LogIn, LogOut, Settings, Search } from 'lucide-react';
+import { Home, Building2, Users, Phone, Menu, X, LogIn, LogOut, Settings, Search, Briefcase } from 'lucide-react';
 import { useAuth } from '../Auth/AuthProvider';
 
 const Header = () => {
@@ -11,6 +11,7 @@ const Header = () => {
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
     { name: 'Properties', href: '/properties', icon: Building2 },
+    { name: 'Services', href: '/services', icon: Briefcase },
     { name: 'Find Property', href: '/buyer-request', icon: Search },
     { name: 'About Us', href: '/about', icon: Users },
     { name: 'Contact', href: '/contact', icon: Phone },

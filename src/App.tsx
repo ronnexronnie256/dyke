@@ -10,6 +10,7 @@ import PropertySellerForm from './components/Forms/PropertySellerForm';
 import BuyerRequestForm from './components/Forms/BuyerRequestForm';
 import SiteVisitForm from './components/Forms/SiteVisitForm';
 import AboutPage from './pages/AboutPage';
+import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
 import DebugPage from './pages/DebugPage';
 import PropertyDetailsPage from './pages/PropertyDetailsPage';
@@ -42,6 +43,7 @@ const AppContent = () => {
           <Route path="/buyer-request" element={<BuyerRequestForm />} />
           <Route path="/book-visit" element={<SiteVisitForm />} />
           <Route path="/about" element={<AboutPage />} />
+          <Route path="/services" element={<ServicesPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/debug" element={<DebugPage />} />
           <Route path="/login" element={<LoginForm />} />
