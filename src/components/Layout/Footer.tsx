@@ -77,17 +77,15 @@ const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-400">+256 788 433 163</span>
-              </div>
-              <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-blue-400" />
-                <span className="text-gray-400">info@dykeinvestments.com</span>
+                <span className="text-gray-400">+256 742 371722</span>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-blue-400 mt-0.5" />
                 <span className="text-gray-400">
-                  Kampala Road, Plot 19<br />
-                  Kampala, Uganda
+                  Suite 3 Gaiety Place Apartments<br />
+                  Plot 220, plot 795<br />
+                  Kiwatule-Nalya Road<br />
+                  P.O.Box 120179
                 </span>
               </div>
             </div>

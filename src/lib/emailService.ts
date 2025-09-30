@@ -1,4 +1,4 @@
-// Email Service Integration
+﻿// Email Service Integration
 // This can be easily replaced with real email services like SendGrid, Mailgun, or AWS SES
 
 export interface EmailData {
@@ -17,7 +17,7 @@ export interface BulkEmailData {
 
 class EmailService {
   private apiEndpoint = '/api/send-email'; // This would be your serverless function or API endpoint
-  private defaultFrom = 'info@dykeinvestments.com';
+  private defaultFrom = 'contact@dykeinvestments.com';
 
   async sendEmail(emailData: EmailData): Promise<{ success: boolean; message: string }> {
     try {
@@ -250,9 +250,9 @@ class EmailService {
           <p style="margin: 20px 0;">If you have any questions or would like to schedule immediate viewings, please contact us:</p>
           
           <div style="background: #f3f4f6; padding: 15px; border-radius: 8px; text-align: center;">
-            <p style="margin: 5px 0;"><strong>📞 Phone:</strong> +256 788 433 163</p>
-            <p style="margin: 5px 0;"><strong>📧 Email:</strong> info@dykeinvestments.com</p>
-            <p style="margin: 5px 0;"><strong>💬 WhatsApp:</strong> +256 788 433 163</p>
+            <p style="margin: 5px 0;"><strong>📞 Phone:</strong> +256 742 371722</p>
+            <p style="margin: 5px 0;"><strong>📧 Email:</strong> contact@dykeinvestments.com</p>
+            <p style="margin: 5px 0;"><strong>💬 WhatsApp:</strong> +256 742 371722</p>
           </div>
         </div>
 

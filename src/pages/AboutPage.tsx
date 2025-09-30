@@ -197,42 +197,37 @@ const AboutPage = () => {
             Whether you're buying or selling, our team is here to help you achieve your real estate goals.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
                 <Phone className="h-6 w-6" />
               </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Call Us</h3>
-              <p className="text-gray-600">+256 788 433 163</p>
-            </div>
-            <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
-                <Mail className="h-6 w-6" />
-              </div>
-              <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
-              <p className="text-gray-600">info@dykeinvestments.com</p>
+              <h3 className="font-semibold text-gray-900 mb-1">Call/WhatsApp</h3>
+              <p className="text-gray-600">+256 742 371722</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
                 <MapPin className="h-6 w-6" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">Visit Us</h3>
-              <p className="text-gray-600">Kampala Road, Plot 123</p>
+              <p className="text-gray-600">Suite 3 Gaiety Place Apartments<br />Plot 220, plot 795, Kiwatule-Nalya Road<br />P.O.Box 120179</p>
             </div>
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
-              href="tel:+256788433163"
+              href="tel:+256742371722"
               className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
             >
-              Contact Us Today
+              Call Us Today
             </a>
             <a
-              href="mailto:info@dykeinvestments.com"
-              className="bg-transparent border-2 border-blue-600 text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-blue-600 hover:text-white transition-colors"
+              href="https://wa.me/256742371722"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-green-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-700 transition-colors"
             >
-              Send Email
+              WhatsApp Us
             </a>
           </div>
         </div>

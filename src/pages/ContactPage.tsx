@@ -43,20 +43,14 @@ const ContactPage = () => {
     {
       icon: MapPin,
       title: 'Our Office',
-      details: ['Kampala Road, Plot 123', 'Kampala, Uganda'],
+      details: ['Suite 3 Gaiety Place Apartments', 'Plot 220, plot 795', 'Kiwatule-Nalya Road', 'P.O.Box 120179'],
       color: 'text-blue-600',
     },
     {
       icon: Phone,
-      title: 'Phone Numbers',
-      details: ['+256 705 754 414', '+256 394 705 763'],
+      title: 'Phone/WhatsApp',
+      details: ['+256 742 371722'],
       color: 'text-emerald-600',
-    },
-    {
-      icon: Mail,
-      title: 'Email Addresses',
-      details: ['info@dykeinvestments.com', 'sales@dykeinvestments.com'],
-      color: 'text-orange-600',
     },
     {
       icon: Clock,
@@ -221,7 +215,7 @@ const ContactPage = () => {
                   <MapPin className="h-5 w-5 text-blue-600" />
                   <h3 className="text-lg font-semibold text-gray-900">Our Location</h3>
                 </div>
-                <p className="text-sm text-gray-600 mt-1">AAA Complex Building, Kampala</p>
+                <p className="text-sm text-gray-600 mt-1">Suite 3 Gaiety Place Apartments, Kiwatule-Nalya Road</p>
               </div>
               <div className="relative">
                 <iframe
@@ -243,14 +237,14 @@ const ContactPage = () => {
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Need Immediate Assistance?</h3>
               <div className="space-y-3">
                 <a
-                  href="tel:+256700123456"
+                  href="tel:+256742371722"
                   className="flex items-center space-x-3 text-blue-600 hover:text-blue-700 transition-colors"
                 >
                   <Phone className="h-5 w-5" />
-                  <span className="font-medium">Call us now: +256 788 433 163</span>
+                  <span className="font-medium">Call us now: +256 742 371722</span>
                 </a>
                 <a
-                  href="https://wa.me/256788433163"
+                  href="https://wa.me/256742371722"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center space-x-3 text-green-600 hover:text-green-700 transition-colors"
