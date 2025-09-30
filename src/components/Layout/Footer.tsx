@@ -57,6 +57,16 @@ const Footer = () => {
                   About Us
                 </Link>
               </li>
+              <li>
+                <Link to="/services" className="text-gray-400 hover:text-white transition-colors">
+                  Our Services
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-400 hover:text-white transition-colors">
+                  Contact Us
+                </Link>
+              </li>
             </ul>
           </div>
 
@@ -78,6 +88,10 @@ const Footer = () => {
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-blue-400" />
                 <span className="text-gray-400">+256 742 371722</span>
+              </div>
+              <div className="flex items-center space-x-3">
+                <Mail className="h-4 w-4 text-blue-400" />
+                <span className="text-gray-400">info@dykeinvestments.com</span>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-blue-400 mt-0.5" />

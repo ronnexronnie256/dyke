@@ -53,6 +53,12 @@ const ContactPage = () => {
       color: 'text-emerald-600',
     },
     {
+      icon: Mail,
+      title: 'Email',
+      details: ['info@dykeinvestments.com'],
+      color: 'text-orange-600',
+    },
+    {
       icon: Clock,
       title: 'Business Hours',
       details: ['Monday - Friday: 8:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 4:00 PM'],

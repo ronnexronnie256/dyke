@@ -197,13 +197,20 @@ const AboutPage = () => {
             Whether you're buying or selling, our team is here to help you achieve your real estate goals.
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
                 <Phone className="h-6 w-6" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">Call/WhatsApp</h3>
               <p className="text-gray-600">+256 742 371722</p>
+            </div>
+            <div className="text-center">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
+                <Mail className="h-6 w-6" />
+              </div>
+              <h3 className="font-semibold text-gray-900 mb-1">Email Us</h3>
+              <p className="text-gray-600">info@dykeinvestments.com</p>
             </div>
             <div className="text-center">
               <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
