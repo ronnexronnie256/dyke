@@ -72,12 +72,13 @@ const Footer = () => {
 
           {/* Services */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Services</h3>
+            <h3 className="text-lg font-semibold">Our Services</h3>
             <ul className="space-y-2">
-              <li className="text-gray-400">Property Valuation</li>
-              <li className="text-gray-400">Site Visits</li>
-              <li className="text-gray-400">Property Management</li>
-              <li className="text-gray-400">Investment Consultation</li>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">Property Sales</li>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">Property Purchase</li>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">Property Auctions</li>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">Estate Development</li>
+              <li className="text-gray-400 hover:text-white transition-colors cursor-pointer">Property Management</li>
             </ul>
           </div>
 
