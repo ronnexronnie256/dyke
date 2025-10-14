@@ -1,9 +1,39 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Home, Users, Calendar, MapPin, DollarSign, Shield, Award } from 'lucide-react';
+import { Search, Home, Calendar } from 'lucide-react';
+import { neonDb } from '../lib/neon';
+
+// Local fallback images from public directory
+const FALLBACK_IMAGES = [
+  '/images/1.jpg',
+  '/images/2.jpg',
+  '/images/3.jpg',
+  '/images/10.jpg',
+  '/images/22.jpg'
+];
 
 const HomePage = () => {
   const [searchTerm, setSearchTerm] = React.useState('');
+  const [backgroundImages, setBackgroundImages] = React.useState<string[]>(FALLBACK_IMAGES);
+  const [currentImageIndex, setCurrentImageIndex] = React.useState(0);
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  // Set the background images to use only local images
+  React.useEffect(() => {
+    setBackgroundImages(FALLBACK_IMAGES);
+    setIsLoading(false);
+  }, []);
+
+  // Auto-cycle through background images
+  React.useEffect(() => {
+    if (backgroundImages.length === 0) return;
+
+    const interval = setInterval(() => {
+      setCurrentImageIndex((prev) => (prev + 1) % backgroundImages.length);
+    }, 5000); // Change image every 5 seconds
+
+    return () => clearInterval(interval);
+  }, [backgroundImages.length]);
 
   const features = [
     {
@@ -59,16 +89,33 @@ const HomePage = () => {
       {/* Hero Section */}
       <section className="relative text-white min-h-screen flex items-center pt-16">
         {/* Background Image */}
+        {/* Background Image with reduced opacity */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat transition-all duration-1000"
           style={{
-            backgroundImage: `url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')`,
-            opacity: 0.7
+            backgroundImage: `url('${backgroundImages[currentImageIndex]}')`,
+            opacity: 0.5, // Reduced opacity for better text visibility
+            filter: 'brightness(0.8)' // Slightly darken the image
           }}
-        ></div>
+        />
 
-        {/* Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-indigo-900/60"></div>
+        {/* Semi-transparent overlay for better text contrast */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/40 via-blue-800/30 to-indigo-900/40"></div>
+
+        {/* Image indicators */}
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 flex space-x-2">
+          {backgroundImages.map((_, index) => (
+            <button
+              key={index}
+              onClick={() => setCurrentImageIndex(index)}
+              className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                index === currentImageIndex
+                  ? 'bg-orange-400 scale-125'
+                  : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+              }`}
+            />
+          ))}
+        </div>
 
         {/* Content */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { neonDb, Property } from '../lib/neon';
 import { 
@@ -17,7 +17,9 @@ import {
   DollarSign,
   User,
   Clock,
-  CheckCircle
+  CheckCircle,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 
 const PropertyDetailsPage = () => {
@@ -25,6 +27,7 @@ const PropertyDetailsPage = () => {
   const [property, setProperty] = useState<Property | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   useEffect(() => {
     if (id) {
@@ -38,7 +41,7 @@ const PropertyDetailsPage = () => {
       // Get property with images
       const result = await neonDb.getPropertyWithImages(propertyId);
       if (result) {
-        setProperty(result);
+        setProperty(result as Property);
       } else {
         setError('Property not found');
       }
@@ -116,41 +119,65 @@ const PropertyDetailsPage = () => {
             <div className="bg-white rounded-lg shadow-md overflow-hidden">
               {property.property_images && property.property_images.length > 0 ? (
                 <div className="relative">
-                  {/* Main Image */}
+                  {/* Main Image with Navigation */}
                   <div className="relative h-96">
                     <img
-                      src={property.property_images[0].image_url}
+                      src={property.property_images[currentImageIndex].image_url}
                       alt={property.title}
                       className="w-full h-full object-cover"
                     />
+
+                    {/* Navigation Arrows */}
+                    {property.property_images.length > 1 && (
+                      <>
+                        <button
+                          onClick={() => setCurrentImageIndex((prev) =>
+                            prev === 0 ? property.property_images!.length - 1 : prev - 1
+                          )}
+                          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+                        >
+                          <ChevronLeft className="h-6 w-6" />
+                        </button>
+                        <button
+                          onClick={() => setCurrentImageIndex((prev) =>
+                            prev === property.property_images!.length - 1 ? 0 : prev + 1
+                          )}
+                          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full hover:bg-opacity-70 transition-all"
+                        >
+                          <ChevronRight className="h-6 w-6" />
+                        </button>
+                      </>
+                    )}
+
                     <div className="absolute top-4 right-4 bg-white px-3 py-1 rounded-full text-sm font-semibold text-gray-700 capitalize">
                       {property.property_type}
                     </div>
                     <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 text-white px-3 py-1 rounded-full text-sm">
-                      {property.property_images.length} image{property.property_images.length > 1 ? 's' : ''}
+                      {currentImageIndex + 1} / {property.property_images.length}
                     </div>
                   </div>
-                  
+
                   {/* Image Thumbnails */}
                   {property.property_images.length > 1 && (
                     <div className="p-4">
-                      <div className="grid grid-cols-4 gap-2">
-                        {property.property_images.slice(1, 5).map((image, index) => (
-                          <div key={index} className="relative h-20 rounded-lg overflow-hidden">
+                      <div className="grid grid-cols-6 gap-2">
+                        {property.property_images.map((image, index) => (
+                          <div
+                            key={index}
+                            className={`relative h-16 rounded-lg overflow-hidden cursor-pointer transition-all ${
+                              index === currentImageIndex
+                                ? 'ring-2 ring-orange-500 ring-offset-2'
+                                : 'hover:opacity-80'
+                            }`}
+                            onClick={() => setCurrentImageIndex(index)}
+                          >
                             <img
                               src={image.image_url}
-                              alt={`${property.title} - Image ${index + 2}`}
-                              className="w-full h-full object-cover hover:opacity-80 transition-opacity cursor-pointer"
+                              alt={`${property.title} - Image ${index + 1}`}
+                              className="w-full h-full object-cover"
                             />
                           </div>
                         ))}
-                        {property.property_images.length > 5 && (
-                          <div className="relative h-20 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                            <span className="text-gray-600 text-sm font-medium">
-                              +{property.property_images.length - 5} more
-                            </span>
-                          </div>
-                        )}
                       </div>
                     </div>
                   )}
