@@ -48,12 +48,12 @@ const AboutPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">About Dyke Investments</h1>
-          <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-xl md:text-2xl text-cream-100 max-w-3xl mx-auto leading-relaxed">
             Uganda's leading real estate platform connecting property buyers and sellers 
             with professional service and innovative technology
           </p>
@@ -89,7 +89,7 @@ const AboutPage = () => {
                 alt="Modern office building"
                 className="rounded-lg shadow-xl w-full h-96 object-cover"
               />
-              <div className="absolute -bottom-6 -right-6 bg-blue-600 text-white p-6 rounded-lg shadow-lg">
+              <div className="absolute -bottom-6 -right-6 bg-orange-500 text-white p-6 rounded-lg shadow-lg">
                 <div className="text-2xl font-bold">500+</div>
                 <div className="text-sm">Properties Sold</div>
               </div>
@@ -114,8 +114,8 @@ const AboutPage = () => {
             {values.map((value, index) => {
               const Icon = value.icon;
               return (
-                <div key={index} className="text-center p-8 rounded-lg bg-gray-50 hover:bg-blue-50 transition-colors">
-                  <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-6">
+                <div key={index} className="text-center p-8 rounded-lg bg-cream-100 hover:bg-orange-50 transition-colors">
+                  <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500 text-white rounded-full mb-6">
                     <Icon className="h-8 w-8" />
                   </div>
                   <h3 className="text-xl font-bold text-gray-900 mb-4">{value.title}</h3>
@@ -128,7 +128,7 @@ const AboutPage = () => {
       </section>
 
       {/* Team Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-cream-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -149,7 +149,7 @@ const AboutPage = () => {
                 />
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                  <p className="text-blue-600 font-medium mb-3">{member.role}</p>
+                  <p className="text-orange-600 font-medium mb-3">{member.role}</p>
                   <p className="text-gray-600 text-sm leading-relaxed">{member.description}</p>
                 </div>
               </div>
@@ -159,29 +159,29 @@ const AboutPage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-blue-900 text-white">
+      <section className="py-20 bg-blue-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Impact</h2>
-            <p className="text-xl text-blue-100">Making a difference in Uganda's real estate market</p>
+            <p className="text-xl text-cream-100">Making a difference in Uganda's real estate market</p>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-300">500+</div>
-              <div className="text-blue-100">Properties Listed</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-orange-300">500+</div>
+              <div className="text-cream-100">Properties Listed</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-300">1,200+</div>
-              <div className="text-blue-100">Happy Clients</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-orange-300">1,200+</div>
+              <div className="text-cream-100">Happy Clients</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-300">50+</div>
-              <div className="text-blue-100">Areas Covered</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-orange-300">50+</div>
+              <div className="text-cream-100">Areas Covered</div>
             </div>
             <div className="text-center">
-              <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-300">95%</div>
-              <div className="text-blue-100">Client Satisfaction</div>
+              <div className="text-4xl md:text-5xl font-bold mb-2 text-orange-300">95%</div>
+              <div className="text-cream-100">Client Satisfaction</div>
             </div>
           </div>
         </div>
@@ -199,7 +199,7 @@ const AboutPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-100 text-orange-600 rounded-full mb-4">
                 <Phone className="h-6 w-6" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">Call/WhatsApp</h3>
@@ -213,7 +213,7 @@ const AboutPage = () => {
               <p className="text-gray-600">info@dykeinvestments.com</p>
             </div>
             <div className="text-center">
-              <div className="inline-flex items-center justify-center w-12 h-12 bg-blue-100 text-blue-600 rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-12 h-12 bg-orange-100 text-orange-600 rounded-full mb-4">
                 <MapPin className="h-6 w-6" />
               </div>
               <h3 className="font-semibold text-gray-900 mb-1">Visit Us</h3>
@@ -224,7 +224,7 @@ const AboutPage = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a
               href="tel:+256742371722"
-              className="bg-blue-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+              className="bg-orange-500 text-white px-8 py-3 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
             >
               Call Us Today
             </a>

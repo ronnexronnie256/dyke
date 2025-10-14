@@ -10,7 +10,7 @@ const Footer = () => {
           {/* Company Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <Building2 className="h-12 w-12 text-blue-400" />
+              <Building2 className="h-12 w-12 text-orange-400" />
              <div className="flex flex-col">
                <span className="font-bold text-xl">Dyke Investments</span>
               <span className="text-sm text-600 italic self-center">"Realtors"</span>
@@ -21,13 +21,13 @@ const Footer = () => {
               with comprehensive real estate solutions.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors">
                 <Facebook className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors">
                 <Twitter className="h-5 w-5" />
               </a>
-              <a href="#" className="text-gray-400 hover:text-blue-400 transition-colors">
+              <a href="#" className="text-gray-400 hover:text-orange-400 transition-colors">
                 <Instagram className="h-5 w-5" />
               </a>
             </div>
@@ -87,15 +87,15 @@ const Footer = () => {
             <h3 className="text-lg font-semibold">Contact Us</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
-                <Phone className="h-4 w-4 text-blue-400" />
+                <Phone className="h-4 w-4 text-orange-400" />
                 <span className="text-gray-400">+256 742 371722</span>
               </div>
               <div className="flex items-center space-x-3">
-                <Mail className="h-4 w-4 text-blue-400" />
+                <Mail className="h-4 w-4 text-orange-400" />
                 <span className="text-gray-400">info@dykeinvestments.com</span>
               </div>
               <div className="flex items-start space-x-3">
-                <MapPin className="h-4 w-4 text-blue-400 mt-0.5" />
+                <MapPin className="h-4 w-4 text-orange-400 mt-0.5" />
                 <span className="text-gray-400">
                   Suite 3 Gaiety Place Apartments<br />
                   Plot 220, plot 795<br />

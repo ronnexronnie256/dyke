@@ -18,14 +18,14 @@ const HomePage = () => {
       title: 'List Your Property',
       description: 'Sell your property with our professional marketing support',
       link: '/sell-property',
-      color: 'bg-emerald-500',
+      color: 'bg-orange-500',
     },
     {
       icon: Calendar,
       title: 'Book Site Visits',
       description: 'Schedule convenient property viewings with our team',
       link: '/book-visit',
-      color: 'bg-orange-500',
+      color: 'bg-orange-600',
     },
   ];
 
@@ -57,17 +57,17 @@ const HomePage = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-900 via-blue-800 to-indigo-800 text-white">
-        <div className="absolute inset-0 bg-black opacity-20"></div>
+      <section className="relative bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white">
+        <div className="absolute inset-0 bg-black opacity-10"></div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               Find Your Perfect
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-blue-300 to-emerald-300">
+              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-cream-200">
                 Property in Uganda
               </span>
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 mb-8 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-cream-50 mb-8 max-w-3xl mx-auto leading-relaxed">
               Connect with verified properties, trusted sellers, and professional real estate services across Uganda
             </p>
 
@@ -80,11 +80,11 @@ const HomePage = () => {
                   placeholder="Search by location, property type, or price range..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="w-full pl-12 pr-4 py-4 text-lg rounded-lg text-gray-900 border-0 focus:ring-4 focus:ring-blue-300 shadow-xl"
+                  className="w-full pl-12 pr-4 py-4 text-lg rounded-lg text-gray-900 border-0 focus:ring-4 focus:ring-orange-300 shadow-xl"
                 />
                 <Link
                   to={`/properties${searchTerm ? `?search=${encodeURIComponent(searchTerm)}` : ''}`}
-                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition-colors font-semibold"
+                  className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-orange-500 text-white px-6 py-2 rounded-md hover:bg-orange-600 transition-colors font-semibold"
                 >
                   Search
                 </Link>
@@ -95,13 +95,13 @@ const HomePage = () => {
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 to="/properties"
-                className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+                className="bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-orange-600 transition-all duration-300 transform hover:scale-105 shadow-lg"
               >
                 Browse Properties
               </Link>
               <Link
                 to="/sell-property"
-                className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-900 transition-all duration-300 transform hover:scale-105"
+                className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
               >
                 Sell Your Property
               </Link>
@@ -111,7 +111,7 @@ const HomePage = () => {
       </section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-cream-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -145,15 +145,15 @@ const HomePage = () => {
       </section>
 
       {/* Stats Section */}
-      <section className="py-20 bg-blue-900 text-white">
+      <section className="py-20 bg-blue-700 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {stats.map((stat, index) => (
               <div key={index} className="text-center">
-                <div className="text-4xl md:text-5xl font-bold mb-2 text-blue-300">
+                <div className="text-4xl md:text-5xl font-bold mb-2 text-orange-300">
                   {stat.number}
                 </div>
-                <div className="text-blue-100 font-medium">{stat.label}</div>
+                <div className="text-cream-100 font-medium">{stat.label}</div>
               </div>
             ))}
           </div>
@@ -175,7 +175,7 @@ const HomePage = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="bg-blue-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-blue-600">1</span>
+                <span className="text-2xl font-bold text-blue-700">1</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">Search & Browse</h3>
               <p className="text-gray-600">
@@ -184,8 +184,8 @@ const HomePage = () => {
             </div>
 
             <div className="text-center">
-              <div className="bg-emerald-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
-                <span className="text-2xl font-bold text-emerald-600">2</span>
+              <div className="bg-orange-100 rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl font-bold text-orange-600">2</span>
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">Visit & Inspect</h3>
               <p className="text-gray-600">
@@ -207,7 +207,7 @@ const HomePage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-cream-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -238,24 +238,24 @@ const HomePage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+      <section className="py-20 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Find Your Dream Property?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+          <p className="text-xl text-cream-50 mb-8 max-w-2xl mx-auto">
             Join thousands of satisfied clients who found their perfect property through Dyke Investments
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/properties"
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-cream-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Start Searching
             </Link>
             <Link
               to="/buyer-request"
-              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
+              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-orange-600 transition-all duration-300 transform hover:scale-105"
             >
               Request Property
             </Link>

@@ -67,12 +67,12 @@ const ContactPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-16">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl text-blue-100 max-w-2xl mx-auto">
+          <p className="text-xl text-cream-100 max-w-2xl mx-auto">
             Get in touch with our real estate experts. We're here to help you with all your property needs.
           </p>
         </div>
@@ -83,7 +83,7 @@ const ContactPage = () => {
           {/* Contact Form */}
           <div className="bg-white rounded-lg shadow-xl p-8">
             <div className="text-center mb-8">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-4">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500 text-white rounded-full mb-4">
                 <Send className="h-8 w-8" />
               </div>
               <h2 className="text-2xl font-bold text-gray-900 mb-2">Send Us a Message</h2>
@@ -111,7 +111,7 @@ const ContactPage = () => {
                   <input
                     type="text"
                     {...register('name', { required: 'Name is required' })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="Your full name"
                   />
                   {errors.name && <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>}
@@ -128,7 +128,7 @@ const ContactPage = () => {
                         message: 'Invalid email address'
                       }
                     })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="your.email@example.com"
                   />
                   {errors.email && <p className="mt-1 text-sm text-red-600">{errors.email.message}</p>}
@@ -141,7 +141,7 @@ const ContactPage = () => {
                   <input
                     type="tel"
                     {...register('phone')}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                     placeholder="+256 700 123 456"
                   />
                 </div>
@@ -150,7 +150,7 @@ const ContactPage = () => {
                   <label className="block text-sm font-medium text-gray-700 mb-2">Subject *</label>
                   <select
                     {...register('subject', { required: 'Subject is required' })}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   >
                     <option value="">Select a subject</option>
                     <option value="buying">I want to buy a property</option>
@@ -177,7 +177,7 @@ const ContactPage = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="w-full bg-orange-500 text-white py-3 px-6 rounded-lg font-semibold hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
               >
                 {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
@@ -239,7 +239,7 @@ const ContactPage = () => {
             </div>
 
             {/* Quick Contact Options */}
-            <div className="bg-blue-50 rounded-lg p-6">
+            <div className="bg-cream-100 rounded-lg p-6">
               <h3 className="text-lg font-semibold text-gray-900 mb-4">Need Immediate Assistance?</h3>
               <div className="space-y-3">
                 <a

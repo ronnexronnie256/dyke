@@ -24,10 +24,10 @@ const Header = () => {
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center">
   <Link to="/" className="flex items-center space-x-2">
-    <Building2 className="h-10 w-10 text-blue-600" />
+    <Building2 className="h-10 w-10 text-orange-500" />
     <div className="flex flex-col">
       <span className="font-bold text-xl text-gray-900">Dyke Investments</span>
-      <span className="text-sm text-blue-600 italic self-center">"Realtors"</span>
+      <span className="text-sm text-orange-500 italic self-center">"Realtors"</span>
     </div>
   </Link>
 </div>
@@ -44,8 +44,8 @@ const Header = () => {
                     to={item.href}
                     className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-all duration-200 ${
                       isActive(item.href)
-                        ? 'bg-blue-600 text-white shadow-md'
-                        : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
+                        ? 'bg-orange-500 text-white shadow-md'
+                        : 'text-gray-700 hover:bg-cream-100 hover:text-orange-600'
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -60,7 +60,7 @@ const Header = () => {
                   {isAdmin && (
                     <Link
                       to="/admin"
-                      className="px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                      className="px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 text-gray-700 hover:bg-cream-100 hover:text-orange-600 transition-all duration-200"
                     >
                       <Settings className="h-4 w-4" />
                       <span>Admin</span>
@@ -68,7 +68,7 @@ const Header = () => {
                   )}
                   <Link
                     to="/buyer-request"
-                    className="px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition-all duration-200"
+                    className="px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 shadow-md hover:shadow-lg transition-all duration-200"
                   >
                     <Search className="h-4 w-4" />
                     <span>Find Property</span>
@@ -88,14 +88,14 @@ const Header = () => {
                 <div className="flex items-center space-x-3 ml-4 pl-4 border-l-2 border-gray-200">
                   <Link
                     to="/login"
-                    className="px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-all duration-200"
+                    className="px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 text-gray-700 hover:bg-cream-100 hover:text-blue-600 transition-all duration-200"
                   >
                     <LogIn className="h-4 w-4" />
                     <span>Sign In</span>
                   </Link>
                   <Link
                     to="/buyer-request"
-                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 shadow-md hover:shadow-lg transition-all duration-200"
+                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 shadow-md hover:shadow-lg transition-all duration-200"
                   >
                     Find Property
                   </Link>
@@ -108,7 +108,7 @@ const Header = () => {
           <div className="lg:hidden">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+              className="inline-flex items-center justify-center p-2 rounded-md text-gray-700 hover:text-orange-600 hover:bg-cream-100 transition-colors"
             >
               {isMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </button>
@@ -128,8 +128,8 @@ const Header = () => {
                     onClick={() => setIsMenuOpen(false)}
                     className={`block px-3 py-2 rounded-md text-base font-medium flex items-center space-x-2 transition-colors ${
                       isActive(item.href)
-                        ? 'bg-blue-600 text-white'
-                        : 'text-gray-700 hover:bg-blue-50 hover:text-blue-600'
+                        ? 'bg-orange-500 text-white'
+                        : 'text-gray-700 hover:bg-cream-100 hover:text-orange-600'
                     }`}
                   >
                     <Icon className="h-4 w-4" />
@@ -146,7 +146,7 @@ const Header = () => {
                       <Link
                         to="/admin"
                         onClick={() => setIsMenuOpen(false)}
-                        className="block px-3 py-2 rounded-lg text-base font-medium flex items-center space-x-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                        className="block px-3 py-2 rounded-lg text-base font-medium flex items-center space-x-2 text-gray-700 hover:bg-cream-100 hover:text-orange-600 transition-colors"
                       >
                         <Settings className="h-4 w-4" />
                         <span>Admin</span>
@@ -155,7 +155,7 @@ const Header = () => {
                     <Link
                       to="/buyer-request"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block px-4 py-3 rounded-lg text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all text-center shadow-md"
+                      className="block px-4 py-3 rounded-lg text-base font-semibold bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 transition-all text-center shadow-md"
                     >
                       Find Property
                     </Link>
@@ -176,7 +176,7 @@ const Header = () => {
                     <Link
                       to="/login"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block px-3 py-2 rounded-lg text-base font-medium flex items-center justify-center space-x-2 text-gray-700 hover:bg-blue-50 hover:text-blue-600 transition-colors"
+                      className="block px-3 py-2 rounded-lg text-base font-medium flex items-center justify-center space-x-2 text-gray-700 hover:bg-cream-100 hover:text-blue-600 transition-colors"
                     >
                       <LogIn className="h-4 w-4" />
                       <span>Sign In</span>
@@ -184,7 +184,7 @@ const Header = () => {
                     <Link
                       to="/buyer-request"
                       onClick={() => setIsMenuOpen(false)}
-                      className="block px-4 py-3 rounded-lg text-base font-semibold bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 transition-all text-center shadow-md"
+                      className="block px-4 py-3 rounded-lg text-base font-semibold bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 transition-all text-center shadow-md"
                     >
                       Find Property
                     </Link>

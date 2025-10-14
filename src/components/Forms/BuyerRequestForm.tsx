@@ -84,10 +84,10 @@ const BuyerRequestForm = () => {
   const districts = ['Kampala', 'Wakiso', 'Mukono', 'Entebbe', 'Jinja', 'Mbarara', 'Gulu', 'Masaka'];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-emerald-50 to-green-100 py-12">
+    <div className="min-h-screen bg-gradient-to-br from-cream-50 to-cream-100 py-12">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-600 text-white rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500 text-white rounded-full mb-4">
             <Search className="h-8 w-8" />
           </div>
           <h1 className="text-3xl font-bold text-gray-900 mb-2">Find Your Dream Property</h1>

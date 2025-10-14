@@ -33,7 +33,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full bg-gradient-to-br from-blue-400 to-purple-500 flex items-center justify-center">
+          <div className="w-full h-full bg-gradient-to-br from-blue-500 to-orange-500 flex items-center justify-center">
             <div className="text-white text-center">
               {getPropertyTypeIcon(property.property_type)}
               <p className="mt-2 text-sm opacity-90">No Image</p>
@@ -53,17 +53,17 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
       <div className="p-6">
         {/* Title and Price */}
         <div className="mb-4">
-          <h3 className="text-lg font-bold text-gray-900 group-hover:text-blue-600 transition-colors line-clamp-2">
+          <h3 className="text-lg font-bold text-gray-900 group-hover:text-orange-600 transition-colors line-clamp-2">
             {property.title}
           </h3>
-          <p className="text-2xl font-bold text-emerald-600 mt-2">
+          <p className="text-2xl font-bold text-orange-600 mt-2">
             UGX {formatPrice(property.asking_price)}
           </p>
         </div>
 
         {/* Location */}
         <div className="flex items-center text-gray-600 mb-4">
-          <MapPin className="h-4 w-4 mr-2 text-blue-500" />
+          <MapPin className="h-4 w-4 mr-2 text-orange-500" />
           <span className="text-sm">
             {property.location_district}, {property.location_town}
             {property.location_village && `, ${property.location_village}`}
@@ -124,7 +124,7 @@ const PropertyCard: React.FC<PropertyCardProps> = ({ property }) => {
         <div className="flex space-x-3">
           <Link
             to={`/properties/${property.id}`}
-            className="flex-1 bg-blue-600 text-white text-center py-2 px-4 rounded-lg font-semibold hover:bg-blue-700 transition-colors"
+            className="flex-1 bg-orange-500 text-white text-center py-2 px-4 rounded-lg font-semibold hover:bg-orange-600 transition-colors"
           >
             View Details
           </Link>

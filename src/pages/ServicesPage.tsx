@@ -43,8 +43,8 @@ const ServicesPage = () => {
         'Legal compliance checks',
         'Fast processing'
       ],
-      color: 'bg-emerald-600',
-      hoverColor: 'hover:bg-emerald-700',
+      color: 'bg-orange-500',
+      hoverColor: 'hover:bg-orange-600',
       link: '/sell-property',
       linkText: 'Sell Your Property'
     },
@@ -124,13 +124,13 @@ const ServicesPage = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream-50">
       {/* Hero Section */}
-      <section className="bg-gradient-to-r from-blue-600 to-indigo-700 text-white py-20">
+      <section className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
             <h1 className="text-4xl md:text-5xl font-bold mb-6">Our Services</h1>
-            <p className="text-xl md:text-2xl text-blue-100 max-w-3xl mx-auto leading-relaxed">
+            <p className="text-xl md:text-2xl text-cream-100 max-w-3xl mx-auto leading-relaxed">
               Comprehensive real estate solutions tailored to meet all your property needs—from buying and selling to development and management
             </p>
           </div>
@@ -221,9 +221,9 @@ const ServicesPage = () => {
             {propertyTypes.map((type, index) => (
               <div 
                 key={index}
-                className="bg-gray-50 rounded-lg p-6 text-center hover:bg-blue-50 transition-colors border-2 border-transparent hover:border-blue-200"
+                className="bg-cream-100 rounded-lg p-6 text-center hover:bg-orange-50 transition-colors border-2 border-transparent hover:border-orange-200"
               >
-                <Building2 className="h-10 w-10 text-blue-600 mx-auto mb-3" />
+                <Building2 className="h-10 w-10 text-orange-500 mx-auto mb-3" />
                 <h3 className="font-semibold text-gray-900">{type}</h3>
               </div>
             ))}
@@ -232,7 +232,7 @@ const ServicesPage = () => {
       </section>
 
       {/* Why Choose Us Section */}
-      <section className="py-20 bg-gray-50">
+      <section className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -245,7 +245,7 @@ const ServicesPage = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-600 rounded-full mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-100 text-blue-700 rounded-full mb-6">
                 <ShieldAlert className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -257,7 +257,7 @@ const ServicesPage = () => {
             </div>
 
             <div className="bg-white rounded-xl shadow-lg p-8 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 bg-emerald-100 text-emerald-600 rounded-full mb-6">
+              <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-100 text-orange-600 rounded-full mb-6">
                 <Users className="h-8 w-8" />
               </div>
               <h3 className="text-xl font-bold text-gray-900 mb-4">
@@ -284,31 +284,31 @@ const ServicesPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-blue-600 to-indigo-700 text-white">
+      <section className="py-20 bg-gradient-to-r from-orange-500 to-orange-600 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-6">
             Ready to Get Started?
           </h2>
-          <p className="text-xl text-blue-100 mb-8 leading-relaxed">
+          <p className="text-xl text-cream-100 mb-8 leading-relaxed">
             Whether you're looking to buy, sell, develop, or manage property, our team is ready to help you achieve your real estate goals
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               to="/properties"
-              className="bg-white text-blue-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-gray-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-white text-orange-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-cream-100 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               Browse Properties
             </Link>
             <Link
               to="/sell-property"
-              className="bg-emerald-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-emerald-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
+              className="bg-blue-600 text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-blue-700 transition-all duration-300 transform hover:scale-105 shadow-lg"
             >
               List Your Property
             </Link>
             <Link
               to="/contact"
-              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-blue-600 transition-all duration-300 transform hover:scale-105"
+              className="bg-transparent border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-orange-600 transition-all duration-300 transform hover:scale-105"
             >
               Contact Us
             </Link>
