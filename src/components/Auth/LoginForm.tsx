@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useAuth } from './AuthProvider';
+import { useNavigate } from 'react-router-dom';
 import { LogIn, Eye, EyeOff } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
@@ -9,7 +10,8 @@ const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const { signIn } = useAuth();
+  const { signIn, profile } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -18,6 +20,32 @@ const LoginForm = () => {
 
     try {
       await signIn(email, password);
+
+      // Wait for profile to be loaded and then redirect
+      let attempts = 0;
+      const maxAttempts = 10;
+
+      while (attempts < maxAttempts) {
+        if (profile && profile.role) {
+          // Redirect based on user role after successful sign-in
+          if (profile.role === 'admin' || profile.role === 'super_admin') {
+            navigate('/admin');
+          } else if (profile.role === 'seller') {
+            navigate('/seller-dashboard');
+          } else {
+            navigate('/buyer-dashboard');
+          }
+          return;
+        }
+
+        // Wait 100ms before checking again
+        await new Promise(resolve => setTimeout(resolve, 100));
+        attempts++;
+      }
+
+      // Fallback: if profile is not loaded after 1 second, redirect to admin (assuming admin login)
+      navigate('/admin');
+
     } catch (error: any) {
       setError(error.message);
     } finally {
@@ -26,10 +54,10 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-cream-50 to-cream-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         <div className="text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 text-white rounded-full mb-4">
+          <div className="inline-flex items-center justify-center w-16 h-16 bg-orange-500 text-white rounded-full mb-4">
             <LogIn className="h-8 w-8" />
           </div>
           <h2 className="text-3xl font-bold text-gray-900">Sign in to your account</h2>
@@ -63,7 +91,7 @@ const LoginForm = () => {
                 required
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                 placeholder="Enter your email"
               />
             </div>
@@ -80,7 +108,7 @@ const LoginForm = () => {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  className="w-full px-4 py-3 pr-12 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   placeholder="Enter your password"
                 />
                 <button
@@ -97,7 +125,7 @@ const LoginForm = () => {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-3 px-4 rounded-lg font-semibold hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            className="w-full bg-orange-500 text-white py-3 px-4 rounded-lg font-semibold hover:bg-orange-600 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             {loading ? 'Signing in...' : 'Sign In'}
           </button>

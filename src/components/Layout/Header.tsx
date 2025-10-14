@@ -10,9 +10,9 @@ const Header = () => {
 
   const navigation = [
     { name: 'Home', href: '/', icon: Home },
+    { name: 'About', href: '/about', icon: Users },
     { name: 'Properties', href: '/properties', icon: Building2 },
     { name: 'Services', href: '/services', icon: Briefcase },
-    { name: 'About', href: '/about', icon: Users },
     { name: 'Contact', href: '/contact', icon: Phone },
   ];
 
@@ -42,60 +42,62 @@ const Header = () => {
                   <Link
                     key={item.name}
                     to={item.href}
-                    className={`px-4 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 transition-all duration-200 ${
+                    className={`px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-1 transition-all duration-200 ${
                       isActive(item.href)
                         ? 'bg-orange-500 text-white shadow-md'
                         : 'text-gray-700 hover:bg-cream-100 hover:text-orange-600'
                     }`}
                   >
                     <Icon className="h-4 w-4" />
-                    <span>{item.name}</span>
+                    <span className="hidden xl:inline">{item.name}</span>
                   </Link>
                 );
               })}
-              
+
               {/* User Menu */}
               {user ? (
-                <div className="flex items-center space-x-3 ml-4 pl-4 border-l-2 border-gray-200">
+                <div className="flex items-center space-x-2 ml-4 pl-4 border-l-2 border-gray-200">
                   {isAdmin && (
                     <Link
                       to="/admin"
-                      className="px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 text-gray-700 hover:bg-cream-100 hover:text-orange-600 transition-all duration-200"
+                      className="px-2 py-2 rounded-lg text-sm font-medium flex items-center space-x-1 text-gray-700 hover:bg-cream-100 hover:text-orange-600 transition-all duration-200"
                     >
                       <Settings className="h-4 w-4" />
-                      <span>Admin</span>
+                      <span className="hidden xl:inline">Admin</span>
                     </Link>
                   )}
                   <Link
                     to="/buyer-request"
-                    className="px-4 py-2 rounded-lg text-sm font-semibold flex items-center space-x-2 bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 shadow-md hover:shadow-lg transition-all duration-200"
+                    className="px-3 py-2 rounded-lg text-sm font-semibold flex items-center space-x-1 bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 shadow-md hover:shadow-lg transition-all duration-200"
                   >
                     <Search className="h-4 w-4" />
-                    <span>Find Property</span>
+                    <span>Find</span>
                   </Link>
-                  <div className="flex items-center space-x-3">
-                    <span className="text-sm text-gray-600 font-medium">Hi, {profile?.full_name}</span>
+                  <div className="flex items-center space-x-2">
+                    <span className="text-sm text-gray-600 font-medium hidden lg:inline">
+                      Hi, {profile?.full_name?.split(' ')[0]}
+                    </span>
                     <button
                       onClick={signOut}
-                      className="px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
+                      className="px-2 py-2 rounded-lg text-sm font-medium flex items-center space-x-1 text-gray-700 hover:bg-red-50 hover:text-red-600 transition-all duration-200"
                     >
                       <LogOut className="h-4 w-4" />
-                      <span>Sign Out</span>
+                      <span className="hidden xl:inline">Out</span>
                     </button>
                   </div>
                 </div>
               ) : (
-                <div className="flex items-center space-x-3 ml-4 pl-4 border-l-2 border-gray-200">
+                <div className="flex items-center space-x-2 ml-4 pl-4 border-l-2 border-gray-200">
                   <Link
                     to="/login"
-                    className="px-3 py-2 rounded-lg text-sm font-medium flex items-center space-x-2 text-gray-700 hover:bg-cream-100 hover:text-blue-600 transition-all duration-200"
+                    className="px-2 py-2 rounded-lg text-sm font-medium flex items-center space-x-1 text-gray-700 hover:bg-cream-100 hover:text-blue-600 transition-all duration-200"
                   >
                     <LogIn className="h-4 w-4" />
-                    <span>Sign In</span>
+                    <span className="hidden xl:inline">Sign In</span>
                   </Link>
                   <Link
                     to="/buyer-request"
-                    className="px-4 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 shadow-md hover:shadow-lg transition-all duration-200"
+                    className="px-3 py-2 rounded-lg text-sm font-semibold bg-gradient-to-r from-orange-500 to-orange-600 text-white hover:from-orange-600 hover:to-orange-700 shadow-md hover:shadow-lg transition-all duration-200"
                   >
                     Find Property
                   </Link>

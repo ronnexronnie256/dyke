@@ -57,13 +57,25 @@ const HomePage = () => {
   return (
     <div>
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-blue-700 via-blue-600 to-blue-500 text-white">
-        <div className="absolute inset-0 bg-black opacity-10"></div>
+      <section className="relative text-white min-h-screen flex items-center pt-16">
+        {/* Background Image */}
+        <div
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{
+            backgroundImage: `url('https://images.pexels.com/photos/1396122/pexels-photo-1396122.jpeg?auto=compress&cs=tinysrgb&w=1920&h=1080&fit=crop')`,
+            opacity: 0.7
+          }}
+        ></div>
+
+        {/* Overlay for better text readability */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900/60 via-blue-800/50 to-indigo-900/60"></div>
+
+        {/* Content */}
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
           <div className="text-center">
             <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
               Find Your Perfect
-              <span className="block text-transparent bg-clip-text bg-gradient-to-r from-orange-300 to-cream-200">
+              <span className="block text-orange-200">
                 Property in Uganda
               </span>
             </h1>

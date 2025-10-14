@@ -5,6 +5,28 @@ import * as yup from 'yup';
 import { neonDb } from '../../lib/neon';
 import { CheckCircle, AlertCircle, Search, MapPin, DollarSign, User, Home, Wifi, Zap, Droplets } from 'lucide-react';
 
+interface FormData {
+  property_type: 'land' | 'house' | 'commercial' | 'apartment' | 'villa';
+  budget_min: number;
+  budget_max: number;
+  preferred_districts: string[];
+  preferred_towns?: string;
+  requires_water?: boolean;
+  requires_power?: boolean;
+  requires_internet?: boolean;
+  min_bedrooms?: number | null;
+  min_bathrooms?: number | null;
+  min_size_acres?: number | null;
+  min_size_sqft?: number | null;
+  additional_requirements?: string;
+  contact_name: string;
+  contact_phone: string;
+  contact_email?: string;
+  urgency: 'low' | 'medium' | 'high';
+  preferred_contact_method: 'phone' | 'email' | 'whatsapp';
+  timeline: 'immediate' | '1-3months' | '3-6months' | '6-12months';
+}
+
 const schema = yup.object({
   property_type: yup.string().oneOf(['land', 'house', 'commercial', 'apartment', 'villa']).required('Property type is required'),
   budget_min: yup.number().positive().required('Minimum budget is required').test('budget-validation', 'Minimum budget must be less than maximum budget', function(value) {
@@ -12,32 +34,30 @@ const schema = yup.object({
     return !budget_max || value < budget_max;
   }),
   budget_max: yup.number().positive().required('Maximum budget is required'),
-  preferred_districts: yup.array().of(yup.string()).min(1, 'Select at least one district'),
-  preferred_towns: yup.string(),
-  requires_water: yup.boolean(),
-  requires_power: yup.boolean(),
-  requires_internet: yup.boolean(),
-  min_bedrooms: yup.number().positive().integer().nullable(),
-  min_bathrooms: yup.number().positive().integer().nullable(),
-  min_size_acres: yup.number().positive().nullable(),
-  min_size_sqft: yup.number().positive().nullable(),
-  additional_requirements: yup.string(),
+  preferred_districts: yup.array().of(yup.string().required()).min(1, 'Select at least one district').required('Select at least one district'),
+  preferred_towns: yup.string().optional(),
+  requires_water: yup.boolean().optional(),
+  requires_power: yup.boolean().optional(),
+  requires_internet: yup.boolean().optional(),
+  min_bedrooms: yup.number().positive().integer().nullable().optional(),
+  min_bathrooms: yup.number().positive().integer().nullable().optional(),
+  min_size_acres: yup.number().positive().nullable().optional(),
+  min_size_sqft: yup.number().positive().nullable().optional(),
+  additional_requirements: yup.string().optional(),
   contact_name: yup.string().required('Name is required').min(2, 'Name must be at least 2 characters'),
   contact_phone: yup.string().required('Phone number is required').matches(/^(\+256|0)[0-9]{9}$/, 'Please enter a valid Ugandan phone number'),
-  contact_email: yup.string().email('Invalid email address'),
+  contact_email: yup.string().email('Invalid email address').optional(),
   urgency: yup.string().oneOf(['low', 'medium', 'high']).required('Please select urgency level'),
   preferred_contact_method: yup.string().oneOf(['phone', 'email', 'whatsapp']).required('Please select preferred contact method'),
   timeline: yup.string().oneOf(['immediate', '1-3months', '3-6months', '6-12months']).required('Please select your timeline'),
 });
-
-type FormData = yup.InferType<typeof schema>;
 
 const BuyerRequestForm = () => {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [submitMessage, setSubmitMessage] = React.useState<{ type: 'success' | 'error'; message: string } | null>(null);
 
   const { register, handleSubmit, formState: { errors }, reset, watch } = useForm<FormData>({
-    resolver: yupResolver(schema),
+    resolver: yupResolver(schema) as any,
     defaultValues: {
       requires_water: false,
       requires_power: false,
@@ -56,9 +76,16 @@ const BuyerRequestForm = () => {
     setSubmitMessage(null);
 
     try {
-      // Create buyer request in database
-      const request = await neonDb.createBuyerRequest({
+      // Create buyer request in database with proper defaults
+      await neonDb.createBuyerRequest({
         ...data,
+        requires_water: data.requires_water ?? false,
+        requires_power: data.requires_power ?? false,
+        requires_internet: data.requires_internet ?? false,
+        min_bedrooms: data.min_bedrooms ?? undefined,
+        min_bathrooms: data.min_bathrooms ?? undefined,
+        min_size_acres: data.min_size_acres ?? undefined,
+        min_size_sqft: data.min_size_sqft ?? undefined,
         status: 'active'
       });
 

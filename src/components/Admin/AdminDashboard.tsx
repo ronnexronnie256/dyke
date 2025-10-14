@@ -261,7 +261,7 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-cream-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="mb-8">
           <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
@@ -276,7 +276,7 @@ const AdminDashboard = () => {
                 onClick={() => setActiveTab('overview')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'overview'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -287,7 +287,7 @@ const AdminDashboard = () => {
                 onClick={() => setActiveTab('properties')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'properties'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -298,7 +298,7 @@ const AdminDashboard = () => {
                 onClick={() => setActiveTab('users')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'users'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -309,7 +309,7 @@ const AdminDashboard = () => {
                 onClick={() => setActiveTab('requests')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'requests'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -320,7 +320,7 @@ const AdminDashboard = () => {
                 onClick={() => setActiveTab('visits')}
                 className={`py-4 px-1 border-b-2 font-medium text-sm ${
                   activeTab === 'visits'
-                    ? 'border-blue-500 text-blue-600'
+                    ? 'border-orange-500 text-orange-600'
                     : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
                 }`}
               >
@@ -350,8 +350,8 @@ const AdminDashboard = () => {
 
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center">
-                  <div className="p-2 bg-yellow-100 rounded-lg">
-                    <Clock className="h-6 w-6 text-yellow-600" />
+                  <div className="p-2 bg-orange-100 rounded-lg">
+                    <Clock className="h-6 w-6 text-orange-600" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">Pending Approval</p>
@@ -386,8 +386,8 @@ const AdminDashboard = () => {
 
               <div className="bg-white rounded-lg shadow-sm p-6">
                 <div className="flex items-center">
-                  <div className="p-2 bg-orange-100 rounded-lg">
-                    <Calendar className="h-6 w-6 text-orange-600" />
+                  <div className="p-2 bg-blue-100 rounded-lg">
+                    <Calendar className="h-6 w-6 text-blue-600" />
                   </div>
                   <div className="ml-4">
                     <p className="text-sm font-medium text-gray-600">Pending Site Visits</p>
@@ -467,7 +467,7 @@ const AdminDashboard = () => {
                   <select
                     value={filter}
                     onChange={(e) => setFilter(e.target.value)}
-                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-orange-500 focus:border-transparent"
                   >
                     <option value="all">All Properties</option>
                     <option value="pending">Pending Approval</option>
@@ -477,7 +477,7 @@ const AdminDashboard = () => {
                   </select>
                   <button
                     onClick={fetchProperties}
-                    className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors"
+                    className="bg-orange-600 text-white px-4 py-2 rounded-lg hover:bg-orange-700 transition-colors"
                   >
                     Refresh
                   </button>
@@ -487,7 +487,7 @@ const AdminDashboard = () => {
 
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-cream-100">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Property
@@ -535,7 +535,7 @@ const AdminDashboard = () => {
                           <>
                             <button
                               onClick={() => approveProperty(property.id)}
-                              className="text-green-600 hover:text-green-900"
+                              className="text-orange-600 hover:text-orange-900"
                             >
                               <CheckCircle className="h-4 w-4" />
                             </button>
@@ -571,7 +571,7 @@ const AdminDashboard = () => {
 
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-cream-100">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Contact
@@ -649,7 +649,7 @@ const AdminDashboard = () => {
 
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-cream-100">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       Visitor
@@ -720,7 +720,7 @@ const AdminDashboard = () => {
 
             <div className="overflow-x-auto">
               <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
+                <thead className="bg-cream-100">
                   <tr>
                     <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                       User
