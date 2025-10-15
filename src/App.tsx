@@ -43,7 +43,9 @@ const AppContent = () => {
             <Route path="/properties" element={<PropertyListings />} />
             <Route path="/properties/:id" element={<PropertyDetailsPage />} />
             <Route path="/sell" element={<PropertySellerForm />} />
+            <Route path="/sell-property" element={<PropertySellerForm />} />
             <Route path="/buy" element={<BuyerRequestForm />} />
+            <Route path="/buyer-request" element={<BuyerRequestForm />} />
             <Route path="/book-visit" element={<SiteVisitForm />} />
             <Route path="/about" element={<AboutPage />} />
             <Route path="/services" element={<ServicesPage />} />
