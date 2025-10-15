@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { Search, Home, Calendar } from 'lucide-react';
 import { neonDb } from '../lib/neon';
 
@@ -86,6 +87,19 @@ const HomePage = () => {
 
   return (
     <div>
+      <Helmet>
+        <title>Dyke Investments - Premier Real Estate in Uganda | Properties for Sale & Rent</title>
+        <meta name="description" content="Find your dream property in Uganda with Dyke Investments. Browse verified land, houses, commercial properties & apartments for sale or rent across Kampala, Entebbe, Jinja & more. Expert real estate services." />
+        <meta name="keywords" content="Uganda real estate, properties for sale Uganda, land for sale Uganda, houses for sale Kampala, apartments Uganda, commercial property Uganda, real estate agents Uganda, Dyke Investments" />
+        <meta property="og:title" content="Dyke Investments - Premier Real Estate in Uganda" />
+        <meta property="og:description" content="Find your dream property in Uganda with Dyke Investments. Browse verified land, houses, commercial properties & apartments for sale or rent across Kampala, Entebbe, Jinja & more." />
+        <meta property="og:url" content="https://dykeinvestments.com/" />
+        <meta property="og:type" content="website" />
+        <meta name="twitter:title" content="Dyke Investments - Premier Real Estate in Uganda" />
+        <meta name="twitter:description" content="Find your dream property in Uganda with Dyke Investments. Browse verified land, houses, commercial properties & apartments for sale or rent." />
+        <link rel="canonical" href="https://dykeinvestments.com/" />
+      </Helmet>
+
       {/* Hero Section */}
       <section className="relative text-white min-h-screen flex items-center pt-16">
         {/* Background Image */}

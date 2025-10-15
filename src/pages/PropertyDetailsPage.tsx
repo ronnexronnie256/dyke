@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { neonDb, Property } from '../lib/neon';
+import { Helmet } from 'react-helmet-async';
 import { 
   MapPin, 
   Home, 
@@ -98,6 +98,21 @@ const PropertyDetailsPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
+      <Helmet>
+        <title>{property.title} | Dyke Investments - Uganda Real Estate</title>
+        <meta name="description" content={`${property.title} - ${property.property_type} for sale in ${property.location_district}, ${property.location_town}. Price: UGX ${formatPrice(property.asking_price)}. ${property.description ? property.description.substring(0, 160) + '...' : 'Contact Dyke Investments for more details.'}`} />
+        <meta name="keywords" content={`${property.property_type}, ${property.location_district}, ${property.location_town}, Uganda real estate, property for sale, Dyke Investments`} />
+        <meta property="og:title" content={`${property.title} | Dyke Investments`} />
+        <meta property="og:description" content={`${property.title} - ${property.property_type} for sale in ${property.location_district}, ${property.location_town}. Price: UGX ${formatPrice(property.asking_price)}`} />
+        <meta property="og:url" content={`https://dykeinvestments.com/properties/${property.id}`} />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content={property.property_images && property.property_images.length > 0 ? property.property_images[0].image_url : '/images/og-image.jpg'} />
+        <meta name="twitter:title" content={`${property.title} | Dyke Investments`} />
+        <meta name="twitter:description" content={`${property.title} - ${property.property_type} for sale in ${property.location_district}, ${property.location_town}`} />
+        <meta name="twitter:image" content={property.property_images && property.property_images.length > 0 ? property.property_images[0].image_url : '/images/og-image.jpg'} />
+        <link rel="canonical" href={`https://dykeinvestments.com/properties/${property.id}`} />
+      </Helmet>
+
       {/* Header */}
       <div className="bg-white shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">

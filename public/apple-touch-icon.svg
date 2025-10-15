@@ -1,0 +1,12 @@
+<svg width="180" height="180" viewBox="0 0 180 180" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background circle -->
+  <circle cx="90" cy="90" r="90" fill="#1e40af"/>
+
+  <!-- House icon -->
+  <path d="M45 112h90v45H45v-45z" fill="#f97316"/>
+  <path d="M67 67l22-22 22 22v-22h22v44h-66v-22z" fill="#ffffff"/>
+  <path d="M90 45v22" stroke="#f97316" stroke-width="4" stroke-linecap="round"/>
+
+  <!-- Letter "D" -->
+  <path d="M33 56v66h33c12.15 0 22-9.85 22-22s-9.85-22-22-22H33z" fill="#ffffff"/>
+</svg>

@@ -1,0 +1,19 @@
+User-agent: *
+Allow: /
+
+# Sitemap location
+Sitemap: https://dykeinvestments.com/sitemap.xml
+
+# Disallow admin areas
+Disallow: /admin/
+Disallow: /debug/
+
+# Allow crawling of main pages
+Allow: /
+Allow: /properties
+Allow: /about
+Allow: /services
+Allow: /contact
+Allow: /sell
+Allow: /buy
+Allow: /book-visit
