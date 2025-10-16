@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { UserProfile, neonDb, testConnection, checkTables, createTables, updateTableSchema } from '../../lib/neon';
+import { UserProfile, neonDb, testConnection, createTables, updateTableSchema, createIndexes } from '../../lib/neon';
 
 interface AuthContextType {
   user: { id: string; email: string } | null;
@@ -42,7 +42,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const initializeDatabase = async () => {
     console.log('Initializing database...');
-    
+
     // Test connection
     const connectionOk = await testConnection();
     if (!connectionOk) {
@@ -50,30 +50,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       return;
     }
 
-    // Check existing tables
-    const tables = await checkTables();
-    const tableNames = tables.map((table: any) => table.table_name);
-    
-    const requiredTables = ['user_profiles', 'properties', 'property_images', 'buyer_requests', 'site_visits', 'email_logs'];
-    const missingTables = requiredTables.filter(table => !tableNames.includes(table));
-    
-    if (missingTables.length > 0) {
-      console.log('Missing tables detected:', missingTables);
-      console.log('Creating all tables...');
-      await createTables();
-    } else {
-      console.log('All database tables exist');
-    }
-    
+    // Create all tables (they have IF NOT EXISTS clauses)
+    console.log('Creating all tables...');
+    await createTables();
+
     // Update existing tables with any missing columns
     await updateTableSchema();
+
+    // Create indexes for better performance
+    await createIndexes();
   };
 
   const fetchProfile = async (userId: string) => {
     try {
       const profiles = await neonDb.getUserProfile(userId);
-      if (profiles.length > 0) {
-        setProfile(profiles[0]);
+      if (profiles && profiles.length > 0) {
+        setProfile(profiles[0] as UserProfile);
       }
     } catch (error) {
       console.error('Error fetching profile:', error);

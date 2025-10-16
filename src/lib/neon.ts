@@ -2,12 +2,18 @@ import { neon } from '@neondatabase/serverless';
 import bcrypt from 'bcryptjs';
 import { v4 as uuidv4 } from 'uuid';
 
-// Neon Database Configuration with better error handling
-const connectionString = import.meta.env.VITE_NEON_DATABASE_URL || 'postgresql://neondb_owner:npg_VmvHUYSri63h@ep-noisy-credit-adnm56eq-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require&channel_binding=require';
+// Neon Database Configuration - Optimized for performance
+// Using pooler for connection stability
+// For even better performance, consider switching to direct connection (remove -pooler from hostname)
+const connectionString = import.meta.env.VITE_NEON_DATABASE_URL || 'postgresql://neondb_owner:npg_VmvHUYSri63h@ep-noisy-credit-adnm56eq-pooler.c-2.us-east-1.aws.neon.tech/neondb?sslmode=require';
 
-console.log('Neon connection string:', connectionString ? 'Connected' : 'Missing');
+console.log('Neon connection string configured:', connectionString ? '✅ Yes' : '❌ No');
 
-const sql = neon(connectionString);
+// Optimized configuration for better performance
+const sql = neon(connectionString, {
+  fullResults: false,
+  arrayMode: false
+});
 
 // Test database connection
 export const testConnection = async () => {
@@ -21,19 +27,36 @@ export const testConnection = async () => {
   }
 };
 
-// Check if tables exist
-export const checkTables = async () => {
+// Create indexes for better query performance
+export const createIndexes = async () => {
   try {
-    const result = await sql`
-      SELECT table_name 
-      FROM information_schema.tables 
-      WHERE table_schema = 'public'
-    `;
-    console.log('Existing tables:', result);
-    return result;
+    console.log('Creating database indexes...');
+
+    // Properties table indexes
+    await sql`CREATE INDEX IF NOT EXISTS idx_properties_status ON properties(status)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_properties_type ON properties(property_type)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_properties_district ON properties(location_district)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_properties_price ON properties(asking_price)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_properties_created_at ON properties(created_at)`;
+
+    // Composite indexes for common query patterns
+    await sql`CREATE INDEX IF NOT EXISTS idx_properties_status_type ON properties(status, property_type)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_properties_status_district ON properties(status, location_district)`;
+
+    // Property images table indexes
+    await sql`CREATE INDEX IF NOT EXISTS idx_property_images_property_id ON property_images(property_id)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_property_images_order ON property_images(image_order)`;
+
+    // Buyer requests table indexes
+    await sql`CREATE INDEX IF NOT EXISTS idx_buyer_requests_status ON buyer_requests(status)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_buyer_requests_type ON buyer_requests(property_type)`;
+    await sql`CREATE INDEX IF NOT EXISTS idx_buyer_requests_created_at ON buyer_requests(created_at)`;
+
+    console.log('Database indexes created successfully!');
+    return true;
   } catch (error) {
-    console.error('Error checking tables:', error);
-    return [];
+    console.error('Error creating indexes:', error);
+    return false;
   }
 };
 
@@ -212,6 +235,11 @@ export const createTables = async () => {
     `;
 
     console.log('Tables created successfully!');
+
+    // Create indexes for better performance
+    console.log('Creating indexes...');
+    await createIndexes();
+
     return true;
   } catch (error) {
     console.error('Error creating tables:', error);
@@ -390,71 +418,139 @@ export const neonDb = {
     `;
   },
 
-  // Properties
+  // Properties - Optimized single query
   async getProperties(filters: any = {}) {
     try {
-      console.log('Getting properties with filters:', filters);
+      const startTime = Date.now();
+      console.log('🔍 Fetching properties with filters:', filters);
+
+      const limit = filters.limit || 100;
       
-      // Get all approved properties first, then filter in JavaScript
-      let properties = await sql`SELECT * FROM properties WHERE status = 'approved' ORDER BY created_at DESC`;
-      
-      // Apply filters
+      // Single optimized query with LEFT JOIN and JSON aggregation
+      console.log('📡 Executing database query...');
+      const result = await sql`
+        SELECT 
+          p.id, p.title, p.property_type, p.location_district, p.location_town,
+          p.location_village, p.distance_from_main_road, p.has_water, p.has_power, 
+          p.has_internet, p.size_acres, p.size_sqft, p.bedrooms, p.bathrooms,
+          p.asking_price, p.description, p.owner_name, p.owner_phone, p.owner_email,
+          p.status, p.created_at, p.updated_at,
+          COALESCE(
+            array_agg(
+              json_build_object(
+                'id', pi.id,
+                'property_id', pi.property_id,
+                'image_url', pi.image_url,
+                'image_order', pi.image_order,
+                'is_primary', pi.is_primary,
+                'created_at', pi.created_at
+              ) ORDER BY pi.image_order
+            ) FILTER (WHERE pi.id IS NOT NULL),
+            ARRAY[]::json[]
+          ) as property_images
+        FROM properties p
+        LEFT JOIN property_images pi ON p.id = pi.property_id
+        WHERE p.status = 'approved'
+        GROUP BY p.id
+        ORDER BY p.created_at DESC
+        LIMIT ${limit}
+      `;
+
+      const queryTime = Date.now() - startTime;
+      console.log(`✅ Database query completed: ${queryTime}ms`);
+      console.log(`📊 Found ${result.length} approved properties`);
+
+      // Apply filters in JavaScript
+      let filtered = result as Property[];
+
       if (filters.property_type) {
-        properties = properties.filter((p: any) => p.property_type === filters.property_type);
+        filtered = filtered.filter((p: any) => p.property_type === filters.property_type);
       }
 
       if (filters.district) {
-        properties = properties.filter((p: any) => p.location_district === filters.district);
+        filtered = filtered.filter((p: any) => p.location_district === filters.district);
       }
 
       if (filters.min_price) {
         const minPrice = parseFloat(filters.min_price);
-        properties = properties.filter((p: any) => parseFloat(p.asking_price) >= minPrice);
+        filtered = filtered.filter((p: any) => p.asking_price >= minPrice);
       }
 
       if (filters.max_price) {
         const maxPrice = parseFloat(filters.max_price);
-        properties = properties.filter((p: any) => parseFloat(p.asking_price) <= maxPrice);
+        filtered = filtered.filter((p: any) => p.asking_price <= maxPrice);
       }
 
       if (filters.has_water) {
-        properties = properties.filter((p: any) => p.has_water === true);
+        filtered = filtered.filter((p: any) => p.has_water === true);
       }
 
       if (filters.has_power) {
-        properties = properties.filter((p: any) => p.has_power === true);
+        filtered = filtered.filter((p: any) => p.has_power === true);
       }
 
       if (filters.has_internet) {
-        properties = properties.filter((p: any) => p.has_internet === true);
+        filtered = filtered.filter((p: any) => p.has_internet === true);
       }
 
       if (filters.search && filters.search.trim()) {
-        const searchLower = filters.search.toLowerCase();
-        properties = properties.filter((p: any) => 
-          p.title?.toLowerCase().includes(searchLower) ||
-          p.description?.toLowerCase().includes(searchLower) ||
-          p.location_district?.toLowerCase().includes(searchLower) ||
-          p.location_town?.toLowerCase().includes(searchLower)
+        const searchTerm = filters.search.trim().toLowerCase();
+        filtered = filtered.filter((p: any) => 
+          (p.title && p.title.toLowerCase().includes(searchTerm)) ||
+          (p.description && p.description.toLowerCase().includes(searchTerm)) ||
+          (p.location_district && p.location_district.toLowerCase().includes(searchTerm)) ||
+          (p.location_town && p.location_town.toLowerCase().includes(searchTerm))
         );
       }
-      
-      console.log('Properties found after filtering:', properties.length);
-      
-      // Fetch images for each property
-      const propertiesWithImages = await Promise.all(
-        properties.map(async (property) => {
-          const images = await this.getPropertyImages(property.id);
-          return {
-            ...property,
-            property_images: images
-          };
-        })
-      );
-      
-      return propertiesWithImages;
+
+      const totalTime = Date.now() - startTime;
+      console.log(`✅ Total time: ${totalTime}ms - Returning ${filtered.length} properties`);
+      return filtered;
     } catch (error) {
-      console.error('Error in getProperties:', error);
+      console.error('❌ Error in getProperties:', error);
+      throw error;
+    }
+  },
+
+  // Get all properties with images (for admin) - optimized
+  async getAllPropertiesWithImages() {
+    try {
+      const startTime = Date.now();
+      console.log('🔍 [ADMIN] Fetching all properties with images...');
+      
+      const result = await sql`
+        SELECT 
+          p.id, p.title, p.property_type, p.location_district, p.location_town,
+          p.location_village, p.distance_from_main_road, p.has_water, p.has_power, 
+          p.has_internet, p.size_acres, p.size_sqft, p.bedrooms, p.bathrooms,
+          p.asking_price, p.description, p.owner_name, p.owner_phone, p.owner_email,
+          p.status, p.submitted_by, p.approved_by, p.approved_at,
+          p.created_at, p.updated_at,
+          COALESCE(
+            array_agg(
+              json_build_object(
+                'id', pi.id,
+                'property_id', pi.property_id,
+                'image_url', pi.image_url,
+                'image_order', pi.image_order,
+                'is_primary', pi.is_primary,
+                'created_at', pi.created_at
+              ) ORDER BY pi.image_order
+            ) FILTER (WHERE pi.id IS NOT NULL),
+            ARRAY[]::json[]
+          ) as property_images
+        FROM properties p
+        LEFT JOIN property_images pi ON p.id = pi.property_id
+        GROUP BY p.id
+        ORDER BY p.created_at DESC
+      `;
+
+      const queryTime = Date.now() - startTime;
+      console.log(`✅ [ADMIN] Query completed: ${queryTime}ms - ${result.length} properties`);
+      
+      return result as Property[];
+    } catch (error) {
+      console.error('❌ Error in getAllPropertiesWithImages:', error);
       throw error;
     }
   },
@@ -462,8 +558,35 @@ export const neonDb = {
   // Get single property by ID
   async getPropertyById(id: string) {
     try {
-      const result = await sql`SELECT * FROM properties WHERE id = ${id} AND status = 'approved'`;
-      return result[0] || null;
+      const result = await sql`
+        SELECT
+          p.*,
+          COALESCE(
+            json_agg(
+              json_build_object(
+                'id', pi.id,
+                'property_id', pi.property_id,
+                'image_url', pi.image_url,
+                'image_order', pi.image_order,
+                'is_primary', pi.is_primary,
+                'created_at', pi.created_at
+              )
+            ) FILTER (WHERE pi.id IS NOT NULL),
+            '[]'::json
+          ) as property_images
+        FROM properties p
+        LEFT JOIN property_images pi ON p.id = pi.property_id
+        WHERE p.id = ${id} AND p.status = 'approved'
+        GROUP BY p.id
+      `;
+
+      if (result.length === 0) return null;
+
+      const property = result[0];
+      return {
+        ...property,
+        property_images: Array.isArray(property.property_images) ? property.property_images : []
+      };
     } catch (error) {
       console.error('Error fetching property by ID:', error);
       throw error;
@@ -818,14 +941,8 @@ export const neonDb = {
 
   async getPropertyWithImages(id: string) {
     try {
-      const property = await this.getPropertyById(id);
-      if (!property) return null;
-
-      const images = await this.getPropertyImages(id);
-      return {
-        ...property,
-        property_images: images
-      };
+      // getPropertyById already includes images, so we can just use that
+      return await this.getPropertyById(id);
     } catch (error) {
       console.error('Error fetching property with images:', error);
       throw error;
@@ -837,13 +954,19 @@ export const neonDb = {
     try {
       const result = await sql`
         UPDATE site_visits 
-        SET status = ${status}, updated_at = NOW() 
+        SET status = ${status}
         WHERE id = ${visitId} 
         RETURNING *
       `;
+      
+      if (result.length === 0) {
+        throw new Error('Site visit not found');
+      }
+      
+      console.log(`✅ Updated site visit ${visitId} to status: ${status}`);
       return result[0];
     } catch (error: any) {
-      console.error('Error updating site visit status:', error);
+      console.error('❌ Error updating site visit status:', error);
       throw new Error(`Failed to update site visit status: ${error.message}`);
     }
   },

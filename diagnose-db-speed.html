@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Database Performance Diagnostic</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #2563eb;
+            margin-bottom: 10px;
+        }
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+        }
+        button {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-right: 10px;
+        }
+        button:hover {
+            background: #1d4ed8;
+        }
+        button:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+        }
+        .results {
+            margin-top: 30px;
+        }
+        .test-result {
+            background: #f9fafb;
+            border-left: 4px solid #2563eb;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 4px;
+        }
+        .test-result.error {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+        .test-result.success {
+            border-left-color: #10b981;
+            background: #f0fdf4;
+        }
+        .test-result h3 {
+            margin-top: 0;
+            color: #1f2937;
+        }
+        .metric {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .metric:last-child {
+            border-bottom: none;
+        }
+        .metric-label {
+            font-weight: 600;
+            color: #4b5563;
+        }
+        .metric-value {
+            color: #1f2937;
+            font-family: 'Courier New', monospace;
+        }
+        .slow {
+            color: #ef4444;
+            font-weight: bold;
+        }
+        .fast {
+            color: #10b981;
+            font-weight: bold;
+        }
+        .medium {
+            color: #f59e0b;
+            font-weight: bold;
+        }
+        .recommendation {
+            background: #fef3c7;
+            border: 1px solid #f59e0b;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+        .recommendation h4 {
+            margin-top: 0;
+            color: #92400e;
+        }
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Database Performance Diagnostic</h1>
+        <p class="subtitle">Analyze your Neon database connection speed and identify bottlenecks</p>
+        
+        <div>
+            <button id="runTest" onclick="runDiagnostics()">Run Full Diagnostic</button>
+            <button onclick="testConnectionOnly()">Test Connection Only</button>
+            <button onclick="clearResults()">Clear Results</button>
+        </div>
+
+        <div id="results" class="results"></div>
+    </div>
+
+    <script type="module">
+        import { neonDb, testConnection } from './src/lib/neon.ts';
+
+        window.neonDb = neonDb;
+        window.testConnection = testConnection;
+
+        window.runDiagnostics = async function() {
+            const resultsDiv = document.getElementById('results');
+            const button = document.getElementById('runTest');
+            button.disabled = true;
+            button.innerHTML = 'Running Tests... <span class="loading"></span>';
+            resultsDiv.innerHTML = '';
+
+            const tests = [
+                { name: 'Connection Test', fn: testConnectionSpeed },
+                { name: 'Simple Query', fn: testSimpleQuery },
+                { name: 'Properties Query (No JOIN)', fn: testPropertiesNoJoin },
+                { name: 'Properties Query (With JOIN)', fn: testPropertiesWithJoin },
+                { name: 'Images Query', fn: testImagesQuery },
+                { name: 'Count Query', fn: testCountQuery }
+            ];
+
+            for (const test of tests) {
+                await runTest(test.name, test.fn);
+            }
+
+            // Show recommendations
+            showRecommendations();
+
+            button.disabled = false;
+            button.innerHTML = 'Run Full Diagnostic';
+        };
+
+        window.testConnectionOnly = async function() {
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '';
+            await runTest('Connection Test', testConnectionSpeed);
+        };
+
+        window.clearResults = function() {
+            document.getElementById('results').innerHTML = '';
+        };
+
+        async function runTest(name, testFn) {
+            const resultsDiv = document.getElementById('results');
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-result';
+            testDiv.innerHTML = `<h3>${name}</h3><p>Running...</p>`;
+            resultsDiv.appendChild(testDiv);
+
+            try {
+                const result = await testFn();
+                testDiv.className = `test-result ${result.success ? 'success' : 'error'}`;
+                testDiv.innerHTML = `
+                    <h3>${result.success ? '✅' : '❌'} ${name}</h3>
+                    ${renderMetrics(result)}
+                `;
+            } catch (error) {
+                testDiv.className = 'test-result error';
+                testDiv.innerHTML = `
+                    <h3>❌ ${name}</h3>
+                    <p><strong>Error:</strong> ${error.message}</p>
+                `;
+            }
+        }
+
+        function renderMetrics(result) {
+            let html = '<div>';
+            for (const [key, value] of Object.entries(result)) {
+                if (key === 'success') continue;
+                
+                let displayValue = value;
+                let className = '';
+                
+                if (key.includes('time') || key.includes('Time')) {
+                    const timeMs = typeof value === 'number' ? value : parseInt(value);
+                    if (timeMs < 100) {
+                        className = 'fast';
+                        displayValue = `${timeMs}ms ⚡`;
+                    } else if (timeMs < 500) {
+                        className = 'medium';
+                        displayValue = `${timeMs}ms ⚠️`;
+                    } else {
+                        className = 'slow';
+                        displayValue = `${timeMs}ms 🐌`;
+                    }
+                }
+                
+                html += `
+                    <div class="metric">
+                        <span class="metric-label">${key}:</span>
+                        <span class="metric-value ${className}">${displayValue}</span>
+                    </div>
+                `;
+            }
+            html += '</div>';
+            return html;
+        }
+
+        async function testConnectionSpeed() {
+            const start = Date.now();
+            const success = await window.testConnection();
+            const time = Date.now() - start;
+
+            return {
+                success,
+                'Connection Time': time,
+                'Status': success ? 'Connected' : 'Failed'
+            };
+        }
+
+        async function testSimpleQuery() {
+            const start = Date.now();
+            const result = await window.neonDb.getAllPropertiesDebug();
+            const time = Date.now() - start;
+
+            return {
+                success: true,
+                'Query Time': time,
+                'Total Records': result.length
+            };
+        }
+
+        async function testPropertiesNoJoin() {
+            const start = Date.now();
+            // Simulate query without JOIN
+            const result = await window.neonDb.getAllProperties();
+            const time = Date.now() - start;
+
+            return {
+                success: true,
+                'Query Time': time,
+                'Records': result.length
+            };
+        }
+
+        async function testPropertiesWithJoin() {
+            const start = Date.now();
+            const result = await window.neonDb.getProperties({});
+            const time = Date.now() - start;
+
+            return {
+                success: true,
+                'Query Time': time,
+                'Records': result.length,
+                'With Images': result.some(p => p.property_images?.length > 0) ? 'Yes' : 'No'
+            };
+        }
+
+        async function testImagesQuery() {
+            const start = Date.now();
+            const properties = await window.neonDb.getAllPropertiesDebug();
+            if (properties.length > 0) {
+                const images = await window.neonDb.getPropertyImages(properties[0].id);
+                const time = Date.now() - start;
+                return {
+                    success: true,
+                    'Query Time': time,
+                    'Images Found': images.length
+                };
+            }
+            return { success: false, Error: 'No properties to test' };
+        }
+
+        async function testCountQuery() {
+            const start = Date.now();
+            const result = await window.neonDb.getPropertyStats();
+            const time = Date.now() - start;
+
+            return {
+                success: true,
+                'Query Time': time,
+                'Stats Retrieved': Object.keys(result).length
+            };
+        }
+
+        function showRecommendations() {
+            const resultsDiv = document.getElementById('results');
+            const recDiv = document.createElement('div');
+            recDiv.className = 'recommendation';
+            recDiv.innerHTML = `
+                <h4>💡 Performance Recommendations</h4>
+                <ul>
+                    <li><strong>Connection Speed > 300ms:</strong> Consider using Neon's direct connection instead of pooler</li>
+                    <li><strong>Query Time > 500ms:</strong> Review query complexity and add database indexes</li>
+                    <li><strong>Multiple slow queries:</strong> Database may be in a different region - check Neon region settings</li>
+                    <li><strong>JOIN queries slow:</strong> Ensure indexes exist on foreign keys (property_id)</li>
+                </ul>
+                <p><strong>Quick Fix:</strong> If all queries are slow (>1s), your Neon database might be in sleep mode or far from your location.</p>
+            `;
+            resultsDiv.appendChild(recDiv);
+        }
+    </script>
+</body>
+</html>

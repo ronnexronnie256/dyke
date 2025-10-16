@@ -1,11 +1,12 @@
 import React from 'react';
 import { Property, neonDb } from '../../lib/neon';
 import PropertyCard from './PropertyCard';
-import { Search, Filter, MapPin, DollarSign, Home } from 'lucide-react';
+import { Search, Filter, Home } from 'lucide-react';
 
 const PropertyListings = () => {
   const [properties, setProperties] = React.useState<Property[]>([]);
   const [loading, setLoading] = React.useState(true);
+  const [searchTerm, setSearchTerm] = React.useState('');
   const [filters, setFilters] = React.useState({
     search: '',
     property_type: '',
@@ -17,16 +18,31 @@ const PropertyListings = () => {
     has_internet: false,
   });
 
+  // Debounce search - only fetch after user stops typing for 500ms
+  React.useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setFilters(prev => ({ ...prev, search: searchTerm }));
+    }, 500);
+
+    return () => clearTimeout(timeoutId);
+  }, [searchTerm]);
+
+  // Fetch properties when filters change (not search term directly)
   React.useEffect(() => {
     fetchProperties();
-  }, [filters]);
+  }, [filters.property_type, filters.district, filters.min_price, filters.max_price, filters.has_water, filters.has_power, filters.has_internet, filters.search]);
 
   const fetchProperties = async () => {
     setLoading(true);
+    console.log('🔄 Starting property fetch with filters:', filters);
+    
     try {
-      console.log('Fetching properties with filters:', filters);
+      // Add timeout to prevent hanging
+      const timeoutPromise = new Promise((_, reject) => 
+        setTimeout(() => reject(new Error('Query timeout after 30 seconds')), 30000)
+      );
       
-      const data = await neonDb.getProperties({
+      const dataPromise = neonDb.getProperties({
         property_type: filters.property_type,
         district: filters.district,
         min_price: filters.min_price,
@@ -37,14 +53,19 @@ const PropertyListings = () => {
         search: filters.search
       });
 
-      console.log('Properties received:', data);
-      console.log('Number of properties:', data ? data.length : 0);
+      const data = await Promise.race([dataPromise, timeoutPromise]) as Property[];
+
+      console.log('✅ Properties received:', data);
+      console.log('📊 Total count:', Array.isArray(data) ? data.length : 0);
       
-      setProperties(data || []);
-    } catch (error) {
-      console.error('Error fetching properties:', error);
-      alert('Error loading properties. Check console for details.');
+      setProperties(Array.isArray(data) ? data : []);
+    } catch (error: any) {
+      console.error('❌ Error fetching properties:', error);
+      console.error('Error details:', error.message, error.stack);
+      setProperties([]);
+      // Don't show alert on first load
     } finally {
+      console.log('✅ Setting loading to false');
       setLoading(false);
     }
   };
@@ -54,6 +75,7 @@ const PropertyListings = () => {
   };
 
   const clearFilters = () => {
+    setSearchTerm('');
     setFilters({
       search: '',
       property_type: '',
@@ -86,8 +108,8 @@ const PropertyListings = () => {
                 <input
                   type="text"
                   placeholder="Search properties by location, title, or description..."
-                  value={filters.search}
-                  onChange={(e) => handleFilterChange('search', e.target.value)}
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
                   className="w-full pl-12 pr-4 py-4 rounded-lg text-gray-900 border-0 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 focus:ring-offset-blue-600"
                 />
               </div>

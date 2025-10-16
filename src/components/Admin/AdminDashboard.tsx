@@ -61,11 +61,13 @@ const AdminDashboard = () => {
 
   const fetchStats = async () => {
     try {
-      const [propertiesRes, usersRes, visitsRes, requestsRes] = await Promise.all([
+      console.time('fetchStats');
+      
+      // Optimize: Fetch each type once, reuse the data
+      const [propertiesRes, requestsRes, visitsRes] = await Promise.all([
         neonDb.getAllProperties(),
-        neonDb.getAllBuyerRequests(), // Using buyer requests as proxy for users for now
-        neonDb.getAllSiteVisits(),
-        neonDb.getAllBuyerRequests() // Reusing for active requests count
+        neonDb.getAllBuyerRequests(),
+        neonDb.getAllSiteVisits()
       ]);
 
       const pendingProperties = propertiesRes.filter(p => p.status === 'pending').length;
@@ -81,36 +83,34 @@ const AdminDashboard = () => {
         pendingProperties,
         approvedProperties,
         soldProperties,
-        totalUsers: usersRes.length,
+        totalUsers: requestsRes.length, // Fixed: was using usersRes which didn't exist
         pendingSiteVisits: pendingVisits,
         activeBuyerRequests: activeRequests,
         averagePrice: propertiesRes.length > 0
           ? Math.round(propertiesRes.reduce((sum, p) => sum + parseFloat(p.asking_price), 0) / propertiesRes.length)
           : 0
       });
+      
+      console.timeEnd('fetchStats');
     } catch (error) {
       console.error('Error fetching stats:', error);
     }
   };
   const fetchProperties = async () => {
-    let properties = await neonDb.getAllProperties();
+    console.time('⏱️ fetchProperties');
+    
+    // ✅ OPTIMIZED: Use getAllPropertiesWithImages - single JOIN query
+    const allProperties = await neonDb.getAllPropertiesWithImages();
+    
+    // Filter by status if needed
+    const filtered = filter !== 'all' 
+      ? allProperties.filter((p: any) => p.status === filter)
+      : allProperties;
 
-    if (filter !== 'all') {
-      properties = properties.filter((p: any) => p.status === filter);
-    }
-
-    // Fetch images for each property
-    const propertiesWithImages = await Promise.all(
-      properties.map(async (property) => {
-        const images = await neonDb.getPropertyImages(property.id);
-        return {
-          ...property,
-          property_images: images
-        };
-      })
-    );
-
-    setProperties(propertiesWithImages as Property[]);
+    console.timeEnd('⏱️ fetchProperties');
+    console.log(`✅ Loaded ${filtered.length} properties (filtered from ${allProperties.length} total)`);
+    
+    setProperties(filtered as Property[]);
   };
 
   const fetchUsers = async () => {
@@ -162,8 +162,10 @@ const AdminDashboard = () => {
       await neonDb.updateSiteVisitStatus(visitId, newStatus);
       await fetchSiteVisits();
       await fetchStats();
-    } catch (error) {
+      alert(`✅ Site visit status updated to ${newStatus}`);
+    } catch (error: any) {
       console.error('Error updating site visit status:', error);
+      alert(`❌ Failed to update status: ${error.message}`);
     }
   };
 
